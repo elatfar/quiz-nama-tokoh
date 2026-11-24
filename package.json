@@ -1,0 +1,39 @@
+{
+	"name": "pahlawan-quiz",
+	"version": "1.0.0",
+	"description": "Kuis Pahlawan Nasional Indonesia - Fullstack BHVR di Cloudflare Workers",
+	"private": true,
+	"license": "MIT",
+	"workspaces": [
+		"./packages/*",
+		"./apps/*"
+	],
+	"scripts": {
+		"dev": "bun run --cwd apps/client dev",
+		"dev:single-origin": "bun run --cwd apps/client dev",
+		"dev:wrangler": "bunx wrangler dev",
+		"dev:server": "bun run --cwd apps/server dev",
+		"dev:client": "bun run --cwd apps/client dev",
+		"build": "bun run build:shared && bun run build:server && bun run build:client",
+		"build:shared": "tsc -p packages/shared/tsconfig.json",
+		"build:server": "tsc -p apps/server/tsconfig.json",
+		"build:client": "tsc -p apps/client/tsconfig.app.json && vite build apps/client",
+		"lint": "biome check apps/ packages/",
+		"format": "biome check --write apps/ packages/",
+		"type-check": "tsc -p packages/shared/tsconfig.json && tsc -p apps/server/tsconfig.json && tsc -p apps/client/tsconfig.app.json",
+		"postinstall": "bun run build:shared && bun run build:server"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"bun-types": "latest",
+		"turbo": "^2.6.3",
+		"wrangler": "^3.114.0"
+	},
+	"peerDependencies": {
+		"typescript": "^5.8.2"
+	},
+	"dependencies": {
+		"hono": "^4.10.8",
+		"zod": "^3.24.2"
+	}
+}
